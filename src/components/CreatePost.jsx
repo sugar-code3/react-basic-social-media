@@ -28,15 +28,35 @@ const CreatePost = () => {
     dislikes,
     };
 
-      addPost(userId, postTitle, postbody, views, reactions,tags);
+      // addPost(userId, postTitle, postbody, views, reactions,tags);
   
-      userIdElement.current.value = "";
-      postTitleElement.current.value = "";
-      postbodyElement.current.value = "";
-      viewsElement.current.value = "";
-      likesElement.current.value = "";
-      dislikesElement.current.value = "";
-      tagsElement.current.value="";
+      // userIdElement.current.value = "";
+      // postTitleElement.current.value = "";
+      // postbodyElement.current.value = "";
+      // viewsElement.current.value = "";
+      // likesElement.current.value = "";
+      // dislikesElement.current.value = "";
+      // tagsElement.current.value="";
+
+      console.log(views);
+
+      fetch('https://dummyjson.com/posts/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: postTitle,
+          body: postbody,
+          reactions,reactions,
+          tags:tags,
+          userId: userId,
+          views,
+        
+        })
+      })
+      .then(res => res.json())
+      .then((post)=>{addPost(post)
+        console.log(post);
+      });
   };
   return (
     <form className="create-post" onSubmit={handleSubmit}>
@@ -81,14 +101,14 @@ const CreatePost = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="reactions" className="form-label">
+        <label htmlFor="views" className="form-label">
           Number of reactions
         </label>
         <input
-          type="text"
+          type="Number"
           ref={viewsElement}
           className="form-control"
-          id="reactions"
+          id="views"
           placeholder="How many reacted to this post"
           aria-describedby="emailHelp"
         />

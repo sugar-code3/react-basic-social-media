@@ -26,9 +26,11 @@ const Post = ({post}) => {
             {tag}
           </span>
         ))}
-      <div className="alert alert-success reactions" role="alert">
+      {post.views &&
+        <div className="alert alert-success reactions" role="alert">
 This post has reacted by {post.views} people
-</div>
+</div> }
+
       </div>
     </div>
   );

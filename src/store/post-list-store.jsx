@@ -3,7 +3,6 @@ import { createContext, useEffect, useReducer, useState } from "react";
 
 export const PostListContext = createContext({
   postList: [],
-  addPost: () => {},
   fetching: false,
   deletePost: () => {},
 });
@@ -15,6 +14,7 @@ if (action.type === "DELETE_POST") {
   );
 } else if (action.type === "ADD_POST") {
   newPostList = [action.payload, ...currPostList];
+  console.log(newPostList);
 }
 else if(action.type==="ADD_INITIAL_POST"){
   newPostList=action.payload.posts;
@@ -24,18 +24,12 @@ return newPostList;
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer,[]);
   const[fetching ,setFectching]=useState(false);
-  const addPost = (userId, postTitle, postbody, views, reactions,tags) => {
+  const addPost = (post) => {
+    console.log(post);
     dispatchPostList({
       type: "ADD_POST",
-      payload: {
-        id: Date.now(),
-        title: postTitle,
-        body: postbody,
-        views:views,
-        userId: userId,
-        reactions:reactions,
-        tags:tags
-      },
+      payload: post
+      
     });
   };
   const addInitialPost = (posts) => {
