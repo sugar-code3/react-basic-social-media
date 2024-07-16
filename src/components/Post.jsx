@@ -3,7 +3,9 @@ import { AiFillDelete } from "react-icons/ai";
 import {PostListContext} from "../store/post-list-store";
 import { FaThumbsDown } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
+
 const Post = ({post}) => {
+
   const {deletePost}=useContext(PostListContext)
   return (
     <div className="card post-card" style={{ width: "30rem" }}>
@@ -19,6 +21,11 @@ const Post = ({post}) => {
       <FaThumbsUp/>{post.reactions.likes}
       <FaThumbsDown/>{post.reactions["dislikes"]}
       </div>
+      {post.tags.map((tag) => (
+          <span key={tag} className="badge text-bg-primary hashtag">
+            {tag}
+          </span>
+        ))}
       <div className="alert alert-success reactions" role="alert">
 This post has reacted by {post.views} people
 </div>

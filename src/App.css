@@ -8,8 +8,9 @@
 .post-card{
   margin: 20px 50px;
 }
-.hashtags{
-  margin: 0px 3px;
+.hashtag{
+  margin-top: 10px;
+  margin-right: 10px;
 }
 .sidebar{
  position: sticky;

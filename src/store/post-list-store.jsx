@@ -1,39 +1,42 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
+
 
 export const PostListContext = createContext({
   postList: [],
   addPost: () => {},
-  addInitialPost: () => {},
+  fetching: false,
   deletePost: () => {},
-
 });
 const postListReducer = (currPostList, action) => {
-  switch (action.type) {
-    case 'DELETE_POST':
-      return currPostList.filter(post => post.id !== action.payload.postId);
-    case 'ADD_INITIAL_POST':
-      return action.payload.posts;
-    case 'ADD_POST':
-      return [...currPostList, action.payload];
-    default:
-      return currPostList;
-  }
+let newPostList=currPostList;
+if (action.type === "DELETE_POST") {
+  newPostList = currPostList.filter(
+    (post) => post.id !== action.payload.postId
+  );
+} else if (action.type === "ADD_POST") {
+  newPostList = [action.payload, ...currPostList];
+}
+else if(action.type==="ADD_INITIAL_POST"){
+  newPostList=action.payload.posts;
+}
+return newPostList;
 };
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer,[]);
-  const addPost = (userId,postTitle,postbody,reactions,views) => {
+  const[fetching ,setFectching]=useState(false);
+  const addPost = (userId, postTitle, postbody, views, reactions,tags) => {
     dispatchPostList({
-      type:'ADD_POST',
-      payload:{
-        id:Date.now() ,
-        title:postTitle,
-        body:postbody,
-        reactions,
-        views,
-        userId:userId,
-
-      }
-    })
+      type: "ADD_POST",
+      payload: {
+        id: Date.now(),
+        title: postTitle,
+        body: postbody,
+        views:views,
+        userId: userId,
+        reactions:reactions,
+        tags:tags
+      },
+    });
   };
   const addInitialPost = (posts) => {
     dispatchPostList({
@@ -51,8 +54,24 @@ dispatchPostList({
 })
   };
 
+  useEffect(() => {
+    const controller=new AbortController();
+    const signal=controller.signal;
+    fetch('https://dummyjson.com/posts',{signal})
+      .then(res => res.json())
+      .then((data) => {
+        addInitialPost(data.posts);
+        setFectching(true)
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+
   return (
-    <PostListContext.Provider value={{ postList, addPost,addInitialPost,deletePost }}>
+    <PostListContext.Provider value={{postList, addPost,fetching,deletePost }}>
       {children}
     </PostListContext.Provider>
   );
