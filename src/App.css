@@ -1,0 +1,46 @@
+.app-container{
+  display: flex;
+  position: relative;
+}
+.content{
+  width: 100%;
+}
+.post-card{
+  margin: 20px 50px;
+}
+.hashtags{
+  margin: 0px 3px;
+}
+.sidebar{
+ position: sticky;
+ bottom: 0;
+ top: 0;
+  width: 80px;
+}
+.reactions{
+  width: 100%;
+  margin: 15px 0 0 0;
+}
+.create-post{
+  width: 80%;
+  margin-left: 10% ;
+  margin-top: 50px;
+}
+.container footer{
+position: sticky;
+bottom: 0;
+right: 0;
+left: 0;
+}
+.welcome-msg{
+  margin: 100px auto; 
+}
+.reactions-likes{
+display: flex;
+justify-content: start;
+align-items: center;
+gap: 12px;
+}
+.spinner-border{
+  margin: 20% auto;
+}
